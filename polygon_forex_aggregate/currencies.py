@@ -6,8 +6,17 @@ from math import floor
 # from sqlalchemy import create_engine
 from sqlalchemy import text
 import datetime
-# Define the AUDUSD_return class - each instance will store one row from the dataframe
+#
 class AUDUSD_return(object):
+    """
+        Define the AUDUSD_return class - each instance will store one row from the dataframe
+
+        :param tick_time: time for the average price
+        :param    avg_price: average price for this currency pair
+        :type tick_time: int
+        :type   avg_price: float
+    """
+
     # Variable to store the total number of instantiated objects in this class
     num = 0
     # Variable to store the running sum of the return
@@ -66,6 +75,14 @@ class AUDUSD_return(object):
 
 # Define the GBPEUR_return class - each instance will store one row from the dataframe
 class GBPEUR_return(object):
+    """
+    Define the GBPEUR_return class - each instance will store one row from the dataframe
+
+    :param tick_time: time for the average price
+    :param    avg_price: average price for this currency pair
+    :type tick_time: int
+    :type   avg_price: float
+    """
     # Variable to store the total number of instantiated objects in this class
     num = 0
     # Variable to store the running sum of the return
@@ -125,6 +142,14 @@ class GBPEUR_return(object):
 
 # Define the USDCAD_return class - each instance will store one row from the dataframe
 class USDCAD_return(object):
+    """
+    Define the USDCAD_return class - each instance will store one row from the dataframe
+
+    :param tick_time: time for the average price
+    :param    avg_price: average price for this currency pair
+    :type tick_time: int
+    :type   avg_price: float
+    """
     # Variable to store the total number of instantiated objects in this class
     num = 0
     # Variable to store the running sum of the return
@@ -184,6 +209,14 @@ class USDCAD_return(object):
 
 # Define the USDJPY_return class - each instance will store one row from the dataframe
 class USDJPY_return(object):
+    """
+    Define the USDJPY_return class - each instance will store one row from the dataframe
+
+    :param tick_time: time for the average price
+    :param    avg_price: average price for this currency pair
+    :type tick_time: int
+    :type   avg_price: float
+    """
     # Variable to store the total number of instantiated objects in this class
     num = 0
     # Variable to store the running sum of the return
@@ -243,6 +276,14 @@ class USDJPY_return(object):
 
 # Define the USDMXN_return class - each instance will store one row from the dataframe
 class USDMXN_return(object):
+    """
+    Define the USDMXN_return class - each instance will store one row from the dataframe
+
+    :param tick_time: time for the average price
+    :param    avg_price: average price for this currency pair
+    :type tick_time: int
+    :type   avg_price: float
+    """
     # Variable to store the total number of instantiated objects in this class
     num = 0
     # Variable to store the running sum of the return
@@ -302,6 +343,14 @@ class USDMXN_return(object):
 
 # Define the EURUSD_return class - each instance will store one row from the dataframe
 class EURUSD_return(object):
+    """
+    Define the EURUSD_return class - each instance will store one row from the dataframe
+
+    :param tick_time: time for the average price
+    :param    avg_price: average price for this currency pair
+    :type tick_time: int
+    :type   avg_price: float
+    """
     # Variable to store the total number of instantiated objects in this class
     num = 0
     # Variable to store the running sum of the return
@@ -361,6 +410,14 @@ class EURUSD_return(object):
 
 # Define the USDCNY_return class - each instance will store one row from the dataframe
 class USDCNY_return(object):
+    """
+    Define the USDCNY_return class - each instance will store one row from the dataframe
+
+    :param tick_time: time for the average price
+    :param    avg_price: average price for this currency pair
+    :type tick_time: int
+    :type   avg_price: float
+    """
     # Variable to store the total number of instantiated objects in this class
     num = 0
     # Variable to store the running sum of the return
@@ -420,6 +477,14 @@ class USDCNY_return(object):
 
 # Define the USDCZK_return class - each instance will store one row from the dataframe
 class USDCZK_return(object):
+    """
+    Define the USDCZK_return class - each instance will store one row from the dataframe
+
+    :param tick_time: time for the average price
+    :param    avg_price: average price for this currency pair
+    :type tick_time: int
+    :type   avg_price: float
+    """
     # Variable to store the total number of instantiated objects in this class
     num = 0
     # Variable to store the running sum of the return
@@ -479,6 +544,14 @@ class USDCZK_return(object):
 
 # Define the USDPLN_return class - each instance will store one row from the dataframe
 class USDPLN_return(object):
+    """
+    Define the USDPLN_return class - each instance will store one row from the dataframe
+
+    :param tick_time: time for the average price
+    :param    avg_price: average price for this currency pair
+    :type tick_time: int
+    :type   avg_price: float
+    """
     # Variable to store the total number of instantiated objects in this class
     num = 0
     # Variable to store the running sum of the return
@@ -538,6 +611,14 @@ class USDPLN_return(object):
 
 # Define the USDINR_return class - each instance will store one row from the dataframe
 class USDINR_return(object):
+    """
+    Define the USDINR_return class - each instance will store one row from the dataframe
+
+    :param tick_time: time for the average price
+    :param    avg_price: average price for this currency pair
+    :type tick_time: int
+    :type   avg_price: float
+    """
     # Variable to store the total number of instantiated objects in this class
     num = 0
     # Variable to store the running sum of the return
@@ -598,6 +679,14 @@ class USDINR_return(object):
 # We can buy, sell, or do nothing each time we make a decision.
 # This class defies a nobject for keeping track of our current investments/profits for each currency pair
 class portfolio(object):
+    """
+    A portfolio object that can take a currency pair and store them
+
+    :param from_: currency in three letter format. like USD or INR
+    :param    to: currency in three letter format. like USD or INR
+    :type from: string
+    :type   to: string
+    """
     def __init__(self, from_, to):
         # Initialize the 'From' currency amont to 1
         self.amount = 1
