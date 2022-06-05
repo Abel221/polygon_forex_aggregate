@@ -4,7 +4,7 @@ from math import isnan
 from math import sqrt
 from math import floor
 # from sqlalchemy import create_engine
-from sqlalchemy import text
+# from sqlalchemy import text
 import datetime
 #
 class AUDUSD_return(object):
