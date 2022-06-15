@@ -3,8 +3,8 @@
 from math import isnan
 from math import sqrt
 from math import floor
-# from sqlalchemy import create_engine
-# from sqlalchemy import text
+from sqlalchemy import create_engine
+from sqlalchemy import text
 import datetime
 #
 class AUDUSD_return(object):
@@ -751,7 +751,7 @@ def initialize_aggregated_tables(engine, currency_pairs):
     with engine.begin() as conn:
         for curr in currency_pairs:
             conn.execute(text(
-                "CREATE TABLE " + curr[0] + curr[1] + "_agg(inserttime text, avgfxrate  numeric, stdfxrate numeric);"))
+                "CREATE TABLE " + curr[0] + curr[1] + "_agg(inserttime text, avgfxrate  numeric, stdfxrate numeric, maxfxrate numeric, minfxrate numeric, volfxrate numeric, fdfxrate numeric);"))
 
 
 # This function is called every 6 minutes to aggregate the data, store it in the aggregate table,
@@ -764,6 +764,52 @@ def aggregate_raw_data_tables(engine, currency_pairs):
             for row in result:
                 avg_price = row.avg_price
                 tot_count = row.tot_count
+
+            result = conn.execute(
+                text("SELECT MAX(fxrate) as max_price, COUNT(fxrate) as tot_count FROM " + curr[0] + curr[1] + "_raw;"))
+            for row in result:
+                max_price = row.max_price
+
+            result = conn.execute(
+                text("SELECT MIN(fxrate) as min_price, COUNT(fxrate) as tot_count FROM " + curr[0] + curr[1] + "_raw;"))
+            for row in result:
+                min_price = row.min_price
+
+            vol_price = max_price - min_price
+
+            result = conn.execute(
+                text("SELECT COUNT(avgfxrate) as agg_count FROM " + curr[0] + curr[1] + "_agg;"))
+            for row in result:
+                agg_count = row.agg_count
+
+            FD = 0
+            if agg_count > 20:
+                result = conn.execute(
+                    text("SELECT avgfxrate as EMA, volfxrate as VOL FROM " + curr[0] + curr[1] + "_agg;"))
+                results_ema = []
+                results_vol = []
+                for row in result:
+                    results_ema.append(row.EMA)
+                    results_vol.append(row.VOL)
+                EMA = results_ema[-1]
+                VOL = results_vol[-1]
+                KCUB_list = []
+                KCLB_list = []
+                for i in range(1, 101):
+                    KCUB = EMA + i*0.025*VOL
+                    KCLB = EMA - i*0.025*VOL
+                    KCUB_list.append(KCUB)
+                    KCLB_list.append(KCLB)
+
+                result = conn.execute(
+                    text("SELECT fxrate as rate FROM " + curr[0] + curr[1] + "_raw;"))
+                for row in result:
+                    price = row.rate
+                    if price > KCUB_list[0] or price < KCLB_list[0]:
+                        FD += 1
+
+
+
             std_res = conn.execute(text(
                 "SELECT SUM((fxrate - " + str(avg_price) + ")*(fxrate - " + str(avg_price) + "))/(" + str(
                     tot_count) + "-1) as std_price FROM " + curr[0] + curr[1] + "_raw;"))
@@ -772,9 +818,12 @@ def aggregate_raw_data_tables(engine, currency_pairs):
             date_res = conn.execute(text("SELECT MAX(ticktime) as last_date FROM " + curr[0] + curr[1] + "_raw;"))
             for row in date_res:
                 last_date = row.last_date
+
+
+
             conn.execute(text("INSERT INTO " + curr[0] + curr[
-                1] + "_agg (inserttime, avgfxrate, stdfxrate) VALUES (:inserttime, :avgfxrate, :stdfxrate);"),
-                         [{"inserttime": last_date, "avgfxrate": avg_price, "stdfxrate": std_price}])
+                1] + "_agg (inserttime, avgfxrate, stdfxrate, minfxrate, maxfxrate, volfxrate, fdfxrate) VALUES (:inserttime, :avgfxrate, :stdfxrate, :minfxrate, :maxfxrate, :volfxrate, :fdfxrate);"),
+                         [{"inserttime": last_date, "avgfxrate": avg_price, "stdfxrate": std_price, "minfxrate":min_price, "maxfxrate":max_price, "volfxrate":vol_price, "fdfxrate":FD}])
 
             # This calculates and stores the return values
             exec("curr[2].append(" + curr[0] + curr[1] + "_return(last_date,avg_price))")
@@ -850,3 +899,7 @@ def aggregate_raw_data_tables(engine, currency_pairs):
                     curr[3].buy_curr(avg_price)
             except:
                 pass
+
+
+
+
