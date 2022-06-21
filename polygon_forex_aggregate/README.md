@@ -15,6 +15,6 @@ pip install polygon_forex_aggregate
 and in your main code, do
 ``` python
 from polygon_forex_aggregate import *
-```
 
+```
 I know this is not the best way to import a package, however, this is the limitation of the code where you need to import everything.

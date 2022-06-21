@@ -19,12 +19,24 @@ from polygon_forex_aggregate import *
 
 # This main function repeatedly calls the polygon api every 1 seconds for 24 hours
 # and stores the results.
-def main(currency_pairs):
-    vectors = ["currency_pair", "min", "max", "Mean", "kcub", "kclb"]
-    df = pd.DataFrame(vectors)
+def main(currency_pairs,pulling_frequency,aggregation_time,total_time):
+    if aggregation_time < 0:
+        print("Aggregation time is too small")
+        return
+
+    if total_time < 0 or aggregation_time > total_time:
+        print("total time is too short")
+        return
+
+    if pulling_frequency < 1:
+        print("pulling frequency is too small, minimum 1 second")
+        return
+
+    # vectors = ["currency_pair", "min", "max", "Mean", "kcub", "kclb"]
+    # df = pd.DataFrame(vectors)
     print("entering main")
     # The api key given by the professor
-    key = ""
+    key = "beBybSi8daPgsTp5yx5cHtHpYcrjp5Jq"
 
     # Number of list iterations - each one should last about 1 second
     count = 0
@@ -40,10 +52,10 @@ def main(currency_pairs):
     # Open a RESTClient for making the api calls
     client = RESTClient(key)
     # Loop that runs until the total duration of the program hits 24 hours.
-    while count < 3600:  # 86400 seconds = 24 hours
+    while count < total_time:  # 86400 seconds = 24 hours
 
         # Make a check to see if 6 minutes has been reached or not
-        if agg_count == 360:
+        if agg_count == aggregation_time:
             # Aggregate the data and clear the raw data tables
             aggregate_raw_data_tables(engine, currency_pairs)
             reset_raw_data_tables(engine, currency_pairs)
@@ -51,7 +63,7 @@ def main(currency_pairs):
 
         # Only call the api every 1 second, so wait here for 0.75 seconds, because the
         # code takes about .15 seconds to run
-        time.sleep(0.75)
+        time.sleep(pulling_frequency - 0.15)
 
         # Increment the counters
         count += 1
@@ -108,4 +120,4 @@ if __name__ == '__main__':
                       ["USD", "INR", [], portfolio("USD", "INR")]]
 
     # Run the main data collection loop
-    main(currency_pairs)
+    main(currency_pairs,pulling_frequency=1,aggregation_time=10,total_time=20)
