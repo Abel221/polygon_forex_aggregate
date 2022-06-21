@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="74f5413b-890b-4441-9a8a-d1f7954ee5e5" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/polygon_forex_aggregate/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/polygon_forex_aggregate/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/polygon_forex_aggregate/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/polygon_forex_aggregate/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/polygon_forex_aggregate/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/polygon_forex_aggregate/currencies.py" beforeDir="false" afterPath="$PROJECT_DIR$/polygon_forex_aggregate/currencies.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sqlite/final.db" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
